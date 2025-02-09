@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Прогноз погоди</title>
+</head>
+<body>
+    <h2>Дізнайтеся погоду у вашому місті</h2>
+    <input type="text" id="city" placeholder="Введіть місто">
+    <button onclick="getWeather()">Дізнатися</button>
+    <p id="result"></p>
+
+    <script>
+        async function getWeather() {
+            const city = document.getElementById('city').value;
+            const apiKey = '50632ce2faaa6f5f6c9d67dcee8db9c3';
+            const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&lang=ua&appid=${apiKey}`;
+            
+            try {
+                const response = await fetch(weatherUrl);
+                const data = await response.json();
+                
+                if (data.cod === 200) {
+                    document.getElementById('result').innerText = ` ${data.name}: ${data.main.temp}°C`;
+                } else {
+                    document.getElementById('result').innerText = 'Місто не знайдено';
+                }
+            } catch (error) {
+                document.getElementById('result').innerText = 'Помилка отримання даних';
+            }
+        }
+    </script>
+</body>
+</html>
